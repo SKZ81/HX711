@@ -76,16 +76,8 @@ long HX711_read() {
         clock_low();
     }
 
-    // Replicate the most significant bit to pad out a 32-bit signed integer
-    if (data[2] & 0x80) {
-        filler = 0xFF;
-    } else {
-        filler = 0x00;
-    }
-
     // Construct a 32-bit signed integer
-    value = ( (unsigned long)(filler) << 24
-            | (unsigned long)(data[2]) << 16
+    value = ( ((int32_t)(int8_t)data[2] << 16)
             | (unsigned long)(data[1]) << 8
             | (unsigned long)(data[0]) );
 
